@@ -39,13 +39,13 @@ jobs:
 
       - name: Run migrations
         env:
-          DATABASE_URL: dpg-cv2tju3qf0us7381pj10-a.oregon-postgres.render.com
+          DATABASE_URL: postgresql://jeff:Xin0IadqgJoIoHa08bWBsj2yUASLlI3c@dpg-cv2tju3qf0us7381pj10-a.oregon-postgres.render.com/mydatabase_in8a
         run: |
           python manage.py migrate
 
       - name: Run tests
         env:
-          DATABASE_URL: dpg-cv2tju3qf0us7381pj10-a.oregon-postgres.render.com
+          DATABASE_URL: postgresql://jeff:Xin0IadqgJoIoHa08bWBsj2yUASLlI3c@dpg-cv2tju3qf0us7381pj10-a.oregon-postgres.render.com/mydatabase_in8a
         run: |
           pytest
 
