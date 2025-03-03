@@ -37,7 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
+
+     # Third-party apps
+    'rest_framework',  # Make sure Django Rest Framework is installed
+    'rest_framework_simplejwt',  # Add rest_framework_simplejwt here
+    'drf_yasg',  # DRF YASG for API documentation
+
+    # Custom Applications
     'API',
 ]
 
