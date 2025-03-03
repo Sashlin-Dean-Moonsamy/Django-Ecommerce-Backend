@@ -30,7 +30,7 @@ router.register(r'reviews', ReviewViewSet)
 urlpatterns = [
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('docs/', schema_view.as_view(), name='swagger-docs'),  # Swagger Docs
+    path('docs/', schema_view.with_ui('swagger',  cache_timeout=0), name='swagger-docs'),  # Swagger Docs
     path('', include(router.urls)),
 
 ]
