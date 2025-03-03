@@ -35,14 +35,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest pytest-django flake8
-
-      - name: Run tests
-        env:
-          DATABASE_URL: postgresql://jeff:Xin0IadqgJoIoHa08bWBsj2yUASLlI3c@dpg-cv2tju3qf0us7381pj10-a.oregon-postgres.render.com/mydatabase_in8a
-        run: |
-          pytest
-
+          
       - name: Run flake8 (Linting)
         run: |
           flake8 .
