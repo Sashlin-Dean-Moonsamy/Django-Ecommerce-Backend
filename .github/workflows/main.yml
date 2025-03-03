@@ -16,9 +16,9 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_USER: user
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: test_db
+          POSTGRES_USER: jeff
+          POSTGRES_PASSWORD: Xin0IadqgJoIoHa08bWBsj2yUASLlI3c
+          POSTGRES_DB: dpg-cv2tju3qf0us7381pj10-a.oregon-postgres.render.com
         ports:
           - 5432:5432
 
