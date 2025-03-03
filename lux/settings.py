@@ -86,6 +86,14 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',  # Limit for anonymous users
+        'rest_framework.throttling.UserRateThrottle',  # Limit for authenticated users
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '10/day',   # Anonymous users can make 10 requests per day
+        'user': '100/day',   # Authenticated users can make 100 requests per day
+    }
 }
 
 # Password validation
