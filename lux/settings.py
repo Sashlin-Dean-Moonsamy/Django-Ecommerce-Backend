@@ -28,6 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [    
     'your-app-name.onrender.com',  # Render default domain
+    'django-ecommerce-backend-wgpj.onrender.com', # Custom App Domain
     'localhost',                   # Local development
     ]
 
