@@ -7,7 +7,7 @@ services:
     plan: free
     envVars:
       - key: DJANGO_SECRET_KEY
-        value: "your-secret-key"
+        value: "ee865*lb%!p57-#cr-yh+&)2-(a9s@uej#$h4bemb-lce)+nhp"
       - key: DB_NAME
         value: "mydatabase_in8a"
       - key: DB_USER
