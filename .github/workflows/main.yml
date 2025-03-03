@@ -18,7 +18,7 @@ jobs:
         env:
           POSTGRES_USER: jeff
           POSTGRES_PASSWORD: Xin0IadqgJoIoHa08bWBsj2yUASLlI3c
-          POSTGRES_DB: dpg-cv2tju3qf0us7381pj10-a.oregon-postgres.render.com
+          POSTGRES_DB: mydatabase_in8a
         ports:
           - 5432:5432
 
@@ -39,13 +39,13 @@ jobs:
 
       - name: Run migrations
         env:
-          DATABASE_URL: postgres://user:password@localhost:5432/test_db
+          DATABASE_URL: dpg-cv2tju3qf0us7381pj10-a.oregon-postgres.render.com
         run: |
           python manage.py migrate
 
       - name: Run tests
         env:
-          DATABASE_URL: postgres://user:password@localhost:5432/test_db
+          DATABASE_URL: dpg-cv2tju3qf0us7381pj10-a.oregon-postgres.render.com
         run: |
           pytest
 
