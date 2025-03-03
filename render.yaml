@@ -2,7 +2,10 @@ services:
   - type: web
     name: django-api
     env: python
-    buildCommand: "pip install -r requirements.txt"
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py makemigrations
+      python manage.py migrate
     startCommand: "gunicorn lux.wsgi:application --bind 0.0.0.0:8000 --workers 3"
     plan: free
     envVars:
