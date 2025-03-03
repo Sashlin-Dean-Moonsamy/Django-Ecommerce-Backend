@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Category, Product, Order, Review
 
-class APITestCases(APITestCase):
+class APITestCases(TestCase):
     
     def setUp(self):
         """Set up test user and initial data."""
