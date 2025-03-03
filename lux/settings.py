@@ -26,7 +26,10 @@ SECRET_KEY = 'django-insecure-y3ens@&(0vn7yuhc%c31pjyellw7d6+#jyguwlq*=r#=55l2%b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [    
+    'your-app-name.onrender.com',  # Render default domain
+    'localhost',                   # Local development
+    ]
 
 
 # Application definition
@@ -142,6 +145,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# Define the location for storing media files on the server
+MEDIA_URL = '/media/'  # The URL that serves the media files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # The actual path on the filesystem
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
