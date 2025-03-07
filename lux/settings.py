@@ -147,11 +147,48 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Path where media files will be stored
-MEDIA_URL = '/media/'
+import os
+from django.conf import settings
 
-# Directory on the filesystem to store media files
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# Use a different file storage backend depending on the environment
+if settings.DEBUG:
+    # Development: Use local storage for media files
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+    # Local file storage
+    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
+else:
+    # Production: Use cloud storage (AWS, Google Cloud, etc.)
+    
+    # Example for AWS S3
+    # Uncomment the following lines for AWS S3 configuration in production
+    """
+    MEDIA_URL = 'https://your-bucket-name.s3.amazonaws.com/'
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    AWS_ACCESS_KEY_ID = 'your-access-key-id'
+    AWS_SECRET_ACCESS_KEY = 'your-secret-access-key'
+    AWS_STORAGE_BUCKET_NAME = 'your-bucket-name'
+    AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+    """
+    
+    # Example for Google Cloud Storage
+    # Uncomment the following lines for Google Cloud Storage configuration in production
+    """
+    MEDIA_URL = 'https://storage.googleapis.com/your-bucket-name/'
+    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+    GS_BUCKET_NAME = 'your-bucket-name'
+    """
+
+    # Or for Azure Blob Storage
+    """
+    MEDIA_URL = 'https://your-account-name.blob.core.windows.net/your-container-name/'
+    DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
+    AZURE_ACCOUNT_NAME = 'your-account-name'
+    AZURE_ACCOUNT_KEY = 'your-account-key'
+    AZURE_CONTAINER = 'your-container-name'
+    """
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
