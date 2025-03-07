@@ -1,7 +1,11 @@
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from django.core.cache import cache
+from django.db.models import Count, Avg
 from .models import Category, Product, Order, OrderItem, Review
 from .serializers import CategorySerializer, ProductSerializer, OrderSerializer, OrderItemSerializer, ReviewSerializer
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 class CategoryViewSet(viewsets.ModelViewSet):
     """
@@ -22,8 +26,26 @@ class ProductViewSet(viewsets.ModelViewSet):
     """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    # permission_classes = [IsAuthenticatedOrReadOnly]
 
+    @action(detail=False, methods=['GET'], url_path='popular')
+    def popular_products(self, request):
+        cache_key = "popular_products"
+        
+        # Check if popular products are cached
+        cached_data = cache.get(cache_key)
+        if not cached_data:
+            # Annotate each product with total sales (from OrderItem) and average review rating
+            products = Product.objects.annotate(
+                total_sales=Count('orderitem'),  # Count how many times a product has been ordered (via OrderItem)
+                avg_rating=Avg('reviews__rating')  # Average review rating for the product
+            ).order_by('-total_sales', '-avg_rating')[:10]  # Sort by total_sales first, then avg_rating
+            
+            # Serialize and cache the result
+            cached_data = ProductSerializer(products, many=True).data
+            cache.set(cache_key, cached_data, timeout=3600)  # Cache for 1 hour
+        
+        return Response(cached_data)
 
 class OrderViewSet(viewsets.ModelViewSet):
     """
