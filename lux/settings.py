@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -91,7 +90,7 @@ WSGI_APPLICATION = 'lux.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': dj_database_url.config(default='postgresql://jeff:Xin0IadqgJoIoHa08bWBsj2yUASLlI3c@dpg-cv2tju3qf0us7381pj10-a/mydatabase_in8a'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
