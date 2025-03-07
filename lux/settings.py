@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-import cloudinary
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -102,15 +101,6 @@ DATABASES = {
         'NAME': BASE_DIR / "db.sqlite3",
     },
 }
-
-DEFAULT_FILE_STORAGE = 'cloudinary.storage.MediaCloudinaryStorage'
-
-cloudinary.config(
-    cloudinary_url=os.getenv('CLOUDINARY_URL')
-)
-
-MEDIA_URL = 'https://res.cloudinary.com/dw4kqsiqt/image/upload/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
