@@ -146,12 +146,8 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-import os
-from django.conf import settings
-
 # Use a different file storage backend depending on the environment
-if settings.DEBUG:
+if DEBUG:
     # Development: Use local storage for media files
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
