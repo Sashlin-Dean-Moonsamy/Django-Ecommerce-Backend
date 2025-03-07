@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+import cloudinary
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     'rest_framework',  # Make sure Django Rest Framework is installed
     'rest_framework_simplejwt',  # Add rest_framework_simplejwt here
     'drf_yasg',  # DRF YASG for API documentation
+    'storages',
 
     # Custom Applications
     'api',
@@ -101,6 +103,24 @@ DATABASES = {
         'NAME': BASE_DIR / "db.sqlite3",
     },
 }
+
+
+cloudinary.config(
+    cloud_name=os.getenv('CLOUD_NAME'),
+    api_key=os.getenv('API_KEY'),
+    api_secret=os.getenv('API_SECRET')
+)
+
+# Cloudinary storage settings
+DEFAULT_FILE_STORAGE = 'cloudinary.storage.MediaCloudinaryStorage'
+
+# Optional: You can specify a folder in Cloudinary where you want to store the media files
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUD_NAME'),   # Your Cloudinary cloud name
+    'API_KEY':  os.getenv('API_KEY'),         # Your Cloudinary API key
+    'API_SECRET':  os.getenv('API_SECRET')    # Your Cloudinary API secret
+}
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
