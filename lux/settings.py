@@ -103,10 +103,14 @@ DATABASES = {
     },
 }
 
+DEFAULT_FILE_STORAGE = 'cloudinary.storage.MediaCloudinaryStorage'
 
 cloudinary.config(
     cloudinary_url=os.getenv('CLOUDINARY_URL')
 )
+
+MEDIA_URL = 'https://res.cloudinary.com/dw4kqsiqt/image/upload/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
