@@ -105,21 +105,8 @@ DATABASES = {
 
 
 cloudinary.config(
-    cloud_name=os.getenv('CLOUD_NAME'),
-    api_key=os.getenv('API_KEY'),
-    api_secret=os.getenv('API_SECRET')
+    cloudinary_url=os.getenv('CLOUDINARY_URL')
 )
-
-# Cloudinary storage settings
-DEFAULT_FILE_STORAGE = 'cloudinary.storage.MediaCloudinaryStorage'
-
-# Optional: You can specify a folder in Cloudinary where you want to store the media files
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUD_NAME'),   # Your Cloudinary cloud name
-    'API_KEY':  os.getenv('API_KEY'),         # Your Cloudinary API key
-    'API_SECRET':  os.getenv('API_SECRET')    # Your Cloudinary API secret
-}
-
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
