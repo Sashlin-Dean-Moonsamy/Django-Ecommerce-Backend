@@ -7,7 +7,11 @@ class CategoryViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows categories to be viewed or edited.
     """
-    queryset = Category.objects.all()
+    queryset = Category.objects.prefetch_related('products').all()  # Optimize query to get category and related products
+                                                                    # loads categories and the producuts from database
+                                                                    # usually if you just say .all() it will return catagories and catagory.products.all 
+                                                                    # would make a seperate query to database. Now it loads data about products as well 
+                                                                    # so a second query does not need to be made
     serializer_class = CategorySerializer
     # permission_classes = [IsAuthenticatedOrReadOnly]
 
