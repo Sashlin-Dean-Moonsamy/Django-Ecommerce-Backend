@@ -96,7 +96,7 @@ DATABASES = {
         'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': os.getenv('DB_HOST'),
         'PORT': '5432',
-    }if ENV_MODE == 'prod' else {
+    }if not DEBUG else {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / "db.sqlite3",
     },
@@ -146,6 +146,12 @@ USE_I18N = True
 
 USE_TZ = True
 
+
+# Path where media files will be stored
+MEDIA_URL = '/media/'
+
+# Directory on the filesystem to store media files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
