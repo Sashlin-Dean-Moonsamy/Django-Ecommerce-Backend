@@ -1,27 +1,29 @@
 # serializers.py
 from rest_framework import serializers
 from .models import Category, Product, Order, OrderItem, Review
-from django.contrib.auth.models import User
-
-class CategorySerializer(serializers.ModelSerializer):
-    """
-    Serializer for the Category model.
-    Serializes the 'id', 'name', and 'description' fields.
-    """
-    class Meta:
-        model = Category
-        fields = ['id', 'name', 'description']
 
 class ProductSerializer(serializers.ModelSerializer):
     """
     Serializer for the Product model.
     Includes a nested CategorySerializer to display category details.
     """
-    category = CategorySerializer(read_only=True)
-
     class Meta:
         model = Product
         fields = ['id', 'name', 'description', 'price', 'stock', 'category', 'image', 'date_time_added', 'updated_at']
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    products = ProductSerializer(many=True, read_only=True)  # 🔹 Include products in category
+
+    """
+    Serializer for the Category model.
+    Serializes the 'id', 'name', and 'description' fields.
+    """
+    class Meta:
+        model = Category
+        fields = ['id', 'name', 'description', 'products']
+
+
 
 class OrderItemSerializer(serializers.ModelSerializer):
     """
