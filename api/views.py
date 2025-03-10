@@ -42,7 +42,7 @@ class ProductViewSet(viewsets.ModelViewSet):
             ).order_by('-total_sales', '-avg_rating')[:10]  # Sort by total_sales first, then avg_rating
             
             # Serialize and cache the result
-            cached_data = ProductSerializer(products, many=True).data
+            cached_data = ProductSerializer(products, many=True, context={"request": request}).data
             cache.set(cache_key, cached_data, timeout=3600)  # Cache for 1 hour
         
         return Response(cached_data)
