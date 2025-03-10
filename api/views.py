@@ -7,6 +7,7 @@ from django.core.cache import cache
 from django.db.models import Count, Avg
 from .models import Category, Product, Order, OrderItem, Review
 from .serializers import CategorySerializer, ProductSerializer, OrderSerializer, OrderItemSerializer, ReviewSerializer
+from .cach_keys import POPULAR_PRODUCTS_KEY_CACHE_KEY
 
 class CategoryViewSet(viewsets.ModelViewSet):
     """
@@ -27,7 +28,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    cache_key = "popular_products"
+    cache_key = POPULAR_PRODUCTS_KEY_CACHE_KEY
     # permission_classes = [IsAuthenticatedOrReadOnly]
 
     @action(detail=False, methods=['GET'], url_path='popular')
