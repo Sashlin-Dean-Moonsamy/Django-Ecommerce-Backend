@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework import status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -26,14 +27,14 @@ class ProductViewSet(viewsets.ModelViewSet):
     """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    cache_key = "popular_products"
     # permission_classes = [IsAuthenticatedOrReadOnly]
 
     @action(detail=False, methods=['GET'], url_path='popular')
     def popular_products(self, request):
-        cache_key = "popular_products"
         
         # Check if popular products are cached
-        cached_data = cache.get(cache_key)
+        cached_data = cache.get(self.cache_key)
         if not cached_data:
             # Annotate each product with total sales (from OrderItem) and average review rating
             products = Product.objects.annotate(
@@ -43,19 +44,25 @@ class ProductViewSet(viewsets.ModelViewSet):
             
             # Serialize and cache the result
             cached_data = ProductSerializer(products, many=True, context={"request": request}).data
-            cache.set(cache_key, cached_data, timeout=3600)  # Cache for 1 hour
+            cache.set(self.cache_key, cached_data, timeout=3600)  # Cache for 1 hour
         
         return Response(cached_data)
     
     def perform_create(self, serializer):
         """ Override to clear cache when a new product is added """
         super().perform_create(serializer)
-        cache.delete("popular_products")  # Invalidate cache when a new product is added
+        cache.delete(self.cache_key)  # Invalidate cache when a new product is added
 
     def perform_destroy(self, instance):
         """ Override to clear cache when a product is deleted """
-        cache.delete("popular_products")  # Invalidate cache when a product is deleted
+        cache.delete(self.cache_key)  # Invalidate cache when a product is deleted
         super().perform_destroy(instance)
+
+    def perform_update(self, serializer):
+        """ Override to clear cache when a product is updated, including image change """
+        super().perform_update(serializer)
+        cache.delete(self.cache_key)  # Invalidate cache when product (or image) is updated
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class OrderViewSet(viewsets.ModelViewSet):
