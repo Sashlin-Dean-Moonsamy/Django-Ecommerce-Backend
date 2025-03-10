@@ -6,5 +6,5 @@ class apiConfig(AppConfig):
     name = 'api'
 
     def ready(self):
-        import signals
+        import api.signals
         return super().ready()
