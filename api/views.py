@@ -46,6 +46,17 @@ class ProductViewSet(viewsets.ModelViewSet):
             cache.set(cache_key, cached_data, timeout=3600)  # Cache for 1 hour
         
         return Response(cached_data)
+    
+    def perform_create(self, serializer):
+        """ Override to clear cache when a new product is added """
+        super().perform_create(serializer)
+        cache.delete("popular_products")  # Invalidate cache when a new product is added
+
+    def perform_destroy(self, instance):
+        """ Override to clear cache when a product is deleted """
+        cache.delete("popular_products")  # Invalidate cache when a product is deleted
+        super().perform_destroy(instance)
+
 
 class OrderViewSet(viewsets.ModelViewSet):
     """
