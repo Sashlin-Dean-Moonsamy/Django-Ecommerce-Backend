@@ -21,7 +21,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
 
      # Custom action to retrieve products for a category by name
-    @action(detail=False, methods=['get'], url_path='(?P<name>[\w-]+)/products')
+    @action(detail=False, methods=['get'], url_path='(?P<name>[^/]+)/products')
     def products_by_name(self, request, name=None):
         # Get the category by name
         category = get_object_or_404(Category, name=name)
