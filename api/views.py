@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
 from django.core.cache import cache
 from django.db.models import Count, Avg
 from .models import Category, Product, Order, OrderItem, Review
@@ -19,7 +20,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
                                                                     # would make a seperate query to database. Now it loads data about products as well 
                                                                     # so a second query does not need to be made
     serializer_class = CategorySerializer
-    filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter)
+    filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
     filterset_fields = ['name']  # Example of allowing filtering by name
     ordering_fields = ['name']  # Example of ordering categories by name
     ordering = ['name']  # Default ordering
