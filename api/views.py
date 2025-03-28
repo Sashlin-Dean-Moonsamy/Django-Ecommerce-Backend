@@ -20,21 +20,18 @@ class CategoryViewSet(viewsets.ModelViewSet):
                                                                     # so a second query does not need to be made
     serializer_class = CategorySerializer
 
-     # Custom action to retrieve products for a category by name
-    @action(detail=False, methods=['get'], url_path='(?P<name>[^/]+)/products')
-    def products_by_name(self, request, pk=None):
-        # Get the category by name
-        category = get_object_or_404(Category, pk=pk)
+    @action(detail=True, methods=['get'])
+    def products(self, request, pk=None):
+        # Get the category object based on the provided pk
+        category = self.get_object()
 
-        # Get products related to this category
+        # Filter products for this category
         products = category.products.all()
 
         # Optionally, use a serializer for the products
         product_serializer = ProductSerializer(products, many=True)
 
         return Response(product_serializer.data)
-    # permission_classes = [IsAuthenticatedOrReadOnly]
-
 
 class ProductViewSet(viewsets.ModelViewSet):
     """
