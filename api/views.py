@@ -2,10 +2,9 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework import filters
-from django_filters.rest_framework import DjangoFilterBackend
 from django.core.cache import cache
 from django.db.models import Count, Avg
+from django.shortcuts import get_object_or_404
 from .models import Category, Product, Order, OrderItem, Review
 from .serializers import CategorySerializer, ProductSerializer, OrderSerializer, OrderItemSerializer, ReviewSerializer
 from .cach_keys import POPULAR_PRODUCTS_KEY_CACHE_KEY
