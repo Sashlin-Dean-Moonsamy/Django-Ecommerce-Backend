@@ -4,7 +4,6 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.core.cache import cache
 from django.db.models import Count, Avg, Q
-from django.shortcuts import get_object_or_404
 from .models import Category, Product, Order, OrderItem, Review
 from .serializers import CategorySerializer, ProductSerializer, OrderSerializer, OrderItemSerializer, ReviewSerializer
 from .cach_keys import POPULAR_PRODUCTS_KEY_CACHE_KEY
