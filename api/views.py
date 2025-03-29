@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.core.cache import cache
-from django.db.models import Count, Avg
+from django.db.models import Count, Avg, Q
 from django.shortcuts import get_object_or_404
 from .models import Category, Product, Order, OrderItem, Review
 from .serializers import CategorySerializer, ProductSerializer, OrderSerializer, OrderItemSerializer, ReviewSerializer
@@ -20,19 +20,6 @@ class CategoryViewSet(viewsets.ModelViewSet):
                                                                     # so a second query does not need to be made
     serializer_class = CategorySerializer
 
-     # Custom action to retrieve products for a category by name
-    @action(detail=False, methods=['get'], url_path='(?P<name>[^/]+)/products')
-    def products_by_name(self, request, name=None):
-        # Get the category by name
-        category = get_object_or_404(Category, name=name)
-
-        # Get products related to this category
-        products = category.products.all()
-
-        # Optionally, use a serializer for the products
-        product_serializer = ProductSerializer(products, many=True)
-
-        return Response(product_serializer.data)
     # permission_classes = [IsAuthenticatedOrReadOnly]
 
 
@@ -62,6 +49,22 @@ class ProductViewSet(viewsets.ModelViewSet):
             cache.set(cache_key, cached_data, timeout=3600)  # Cache for 1 hour
         
         return Response(cached_data)
+
+    @action(detail=False, methods=['GET'], url_path='search')
+    def search_products(self, request):
+        query = request.GET.get('query', '')
+        
+        if query:
+            # Search products using case-insensitive matching for title and description
+            products = Product.objects.filter(
+                Q(title__icontains=query) | Q(description__icontains=query)
+            )
+            # Serialize the results
+            serializer = ProductSerializer(products, many=True, context={"request": request})
+            return Response(serializer.data)
+        else:
+            return Response([], status=200)  # Return an empty list if no query is provided
+
 
 
 class OrderViewSet(viewsets.ModelViewSet):
