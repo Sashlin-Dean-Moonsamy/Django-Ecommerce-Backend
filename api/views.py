@@ -56,7 +56,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         if query:
             # Search products using case-insensitive matching for title and description
             products = Product.objects.filter(
-                Q(title__icontains=query) | Q(description__icontains=query)
+                Q(name__icontains=query) | Q(description__icontains=query)
             )
             # Serialize the results
             serializer = ProductSerializer(products, many=True, context={"request": request})
